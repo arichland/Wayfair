@@ -11,17 +11,10 @@ db = sql('database')
 charset = sql('charset')
 cusrorType = pymysql.cursors.DictCursor
 
-# Establish connection to SQL DB
-con = pymysql.connect(user=user,
-                      password=password,
-                      host=host,
-                      database=db,
-                      charset=charset,
-                      cursorclass=cusrorType)
-
-def create_tbl_wf_po():
+def create_tbl_wf_orders():
+    con = pymysql.connect(user=user, password=password, host=host, database=db, charset=charset, cursorclass=cusrorType)
     with con.cursor() as cur:
-        qry_create_table = """CREATE TABLE IF NOT EXISTS tbl_WF_POs(
+        qry_create_table = """CREATE TABLE IF NOT EXISTS tbl_wf_orders(
             id INT AUTO_INCREMENT PRIMARY KEY,
             import_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
             cust_address1 TEXT,
@@ -50,22 +43,45 @@ def create_tbl_wf_po():
             ENGINE=INNODB;"""
         cur.execute(qry_create_table)
     con.commit()
+    cur.close()
+    con.close()
 
-def create_tbl_api_log():
+def create_tbl_wf_inventory():
+    con = pymysql.connect(user=user, password=password, host=host, database=db, charset=charset, cursorclass=cusrorType)
     with con.cursor() as cur:
-        qry_create_table = """CREATE TABLE IF NOT EXISTS tbl_API_Log(
+        qry_create_table = """
+        CREATE TABLE IF NOT EXISTS tbl_wf_inventory(
         id INT AUTO_INCREMENT PRIMARY KEY,
-        timestamp DATETIME,
-        api TEXT,
-        data TEXT,
-        api_code TEXT,
-        code_descr TEXT)
+        discontinued TEXT,
+        quantityBackordered INT,
+        quantityOnHand INT,
+        quantityOnOrder INT,
+        sku TEXT)
         ENGINE=INNODB;"""
         cur.execute(qry_create_table)
     con.commit()
+    cur.close()
     con.close()
 
+def create_tbl_wf_vouchers():
+    con = pymysql.connect(user=user, password=password, host=host, database=db, charset=charset, cursorclass=cusrorType)
+    with con.cursor() as cur:
+        qry_create_table = """CREATE TABLE IF NOT EXISTS tbl_wf_vouchers(
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        voucher_id BIGINT,
+        voucher_date DATE,
+        status TEXT,
+        status_date DATE,
+        amount DOUBLE)
+        ENGINE=INNODB;"""
+        cur.execute(qry_create_table)
+    con.commit()
+    cur.close()
+    con.close()
+
+        
 def create_tables():
-    create_tbl_wf_po()
-    #create_tbl_api_log()
+    create_tbl_wf_orders()
+    create_tbl_wf_inventory()
+    create_tbl_wf_vouchers()
 create_tables()
