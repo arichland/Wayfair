@@ -24,11 +24,13 @@ def create_tbl_wf_orders():
             cust_post_code TEXT,
             cust_state TEXT,
             est_ship_date DATE,
+            month INT,
             order_type TEXT,
             po_date DATE,
             po_number TEXT,
             price DOUBLE,
             quantity INT,
+            quarter INT,
             ship_address1 TEXT,
             ship_address2 TEXT,
             ship_address3 TEXT,
@@ -39,7 +41,8 @@ def create_tbl_wf_orders():
             ship_post_code TEXT,
             ship_state TEXT,
             sku TEXT,
-            Voucher_ID INT)
+            voucher_id INT,
+            year INT)
             ENGINE=INNODB;"""
         cur.execute(qry_create_table)
     con.commit()
@@ -79,9 +82,43 @@ def create_tbl_wf_vouchers():
     cur.close()
     con.close()
 
-        
+def create_tbl_wf_catelog():
+    con = pymysql.connect(user=user, password=password, host=host, database=db, charset=charset, cursorclass=cusrorType)
+    with con.cursor() as cur:
+        qry_create_table = """CREATE TABLE IF NOT EXISTS tbl_wf_catelog(
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        canada_code INT,
+        collection_name TEXT,
+        display_set_quantity INT,
+        force_multiples VARCHAR(5),
+        full_retail_price INT,
+        harmonized_code INT,
+        lead_time INT,
+        lead_time_for_replacement_parts INT,
+        manufacturer_country TEXT,
+        manufacturer_name TEXT,
+        map_price INT,
+        min_order_quantity INT,
+        product_name TEXT,
+        sku TEXT,
+        sku_status TEXT,
+        sku_substatus TEXT,
+        supplier_id INT,
+        supplier_part_number TEXT,
+        upc BIGINT,
+        wayfair_class TEXT,
+        wayfair_sku TEXT,
+        white_labeled VARCHAR(5),
+        wholesale_price INT)
+        ENGINE=INNODB;"""
+        cur.execute(qry_create_table)
+    con.commit()
+    cur.close()
+    con.close()
+
 def create_tables():
     create_tbl_wf_orders()
     create_tbl_wf_inventory()
     create_tbl_wf_vouchers()
+    create_tbl_wf_catelog()
 create_tables()
