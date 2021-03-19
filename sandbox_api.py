@@ -21,18 +21,13 @@ cusrorType = pymysql.cursors.DictCursor
 auth = pydict.api_auth
 client_id = auth['client_id']
 client_secret = auth['client_secret']
-#api_url = 'https://sandbox.api.wayfair.com/v1/graphql'
-api_url = auth['api_url']
+api_url = 'https://sandbox.api.wayfair.com/v1/graphql'
 auth_url = auth['auth_url']
 dtime = datetime.datetime
 date = datetime.date
 delta = datetime.timedelta
 update_date = date.today() - delta(days=1)
 td = date(2020,1,1)
-
-# Dictionaries
-orders = {}
-
 
 def send_request(method: str, url: str, body: str = '', headers: dict = {}):
     response = requests.request(method=method, url=url, data=body, headers=headers)
