@@ -115,8 +115,8 @@ def wf_inventory():
     skus = json.dumps(sku_list)
     vars = """{"inventory": %s, "feedKind": "TRUE_UP"}""" %(skus)
 
-    response = api.prep_request(token, url, vars)
-    data = response['data']['inventory']
-    print(data)
+    #response = api.prep_request(token, url, vars)
+    #data = response['data']['inventory']
+    print(vars)
 
 wf_inventory()
